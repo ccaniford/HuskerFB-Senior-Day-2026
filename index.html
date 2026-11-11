@@ -311,7 +311,7 @@
         <div id="guestArea" hidden>
           <fieldset>
             <legend>Ceremony guests</legend>
-            <p class="note">Guests 1 and 2 are required. Guests 3 through 10 are optional, but if you enter a name, please also enter that guest's relationship to your senior. Only immediate family members may take part in the ceremony.</p>
+            <p class="note">Guest 1 is required. Guests 2 through 10 are optional, but if you enter a name, please also enter that guest's relationship to your senior. Only immediate family members may take part in the ceremony.</p>
             <div id="guestList"></div>
             <button type="button" class="btn ghost" id="addGuest">Add another guest</button>
           </fieldset>
@@ -350,7 +350,7 @@
 const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx8TojRN22LL2bmI_FPqKOFHtHYQ4YlYerGNDpMdPoQqhLfZWbif0wceXTCwOEWIrul/exec";
 
 const MAX_GUESTS = 10;
-const REQUIRED_GUESTS = 2;
+const REQUIRED_GUESTS = 1;
 const $ = (s, r = document) => r.querySelector(s);
 
 /* ---------- Routing (home / rsvp) ---------- */
@@ -390,7 +390,7 @@ for (let i = 1; i <= MAX_GUESTS; i++) {
 }
 const dl = document.createElement('datalist');
 dl.id = 'relOptions';
-['Mother','Father','Stepmother','Stepfather','Sister','Brother','Grandmother','Grandfather','Guardian','Spouse','Partner','Child']
+['Mother','Father','Stepmother','Stepfather','Sister','Brother','Grandmother','Grandfather','Aunt','Uncle','Cousin','Guardian','Spouse','Partner','Child']
   .forEach(v => { const o = document.createElement('option'); o.value = v; dl.appendChild(o); });
 document.body.appendChild(dl);
 
@@ -508,7 +508,7 @@ function showDone(d) {
       </dl>
       <div class="actions" style="justify-content:center">
         <a class="btn" href="#">Back to home</a>
-        <button class="btn ghost" type="button" id="again">RSVP for another senior</button>
+        <button class="btn ghost" type="button" id="again">Submit Form for Additional Guests</button>
       </div>
     </div>`;
   form.hidden = true; box.hidden = false;
@@ -517,7 +517,9 @@ function showDone(d) {
 }
 
 function resetForm() {
+  const senior = $('#senior').value;
   form.reset();
+  $('#senior').value = senior;
   form.hidden = false; $('#done').hidden = true; $('#done').innerHTML = '';
   $('#guestArea').hidden = true;
   guestList.querySelectorAll('.guest.optional').forEach(g => g.hidden = true);
